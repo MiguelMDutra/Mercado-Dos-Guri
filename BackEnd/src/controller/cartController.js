@@ -1,11 +1,21 @@
 import product from "../models/productModel.js";
-import cart from "..models/cartModel.js"
+import cart from "../models/cartModel.js"
 
 class CartController {
-    static async getCart(req, res, next){
-        const cartId = req.body.cartId;
+    static async createCart(req, res, next){
+        const userId = req.body.userId;
         try {
-            const userCart = await cart.findById(cartId);
+            const newCart = await cart.create({ user: userId, items: [] });
+            res.status(201).send(newCart);
+        } 
+        catch (error) {
+            next(error);
+        }
+    }
+    static async getCart(req, res, next){
+        const userId = req.body.userId;
+        try {
+            const userCart = await cart.findOne({user: userId}).populate();
             res.status(200).send(userCart);
         } 
         catch (error) {
@@ -14,12 +24,12 @@ class CartController {
     }
 
     static async addToCart(req, res, next) {
-        const cartId = req.body.cartId;
+        const userId = req.body.userId;
         const productId = req.body.productId;
-        const userCart = await cart.findById(cartId);
+        const userCart = await cart.findOne({user: userId});
 
         try {
-            const product = await product.findById(productId);
+            const addProduct = await product.findById(productId);
         } catch (error) {
             next(error);
         }
@@ -39,9 +49,9 @@ class CartController {
 
 
     static async removeFromCart(req, res, next) {
-        const cartId = req.body.cartId;
+        const userId = req.body.userId;
         const productId = req.body.productId;
-        const userCart = await cart.findById(cartId);
+        const userCart = await cart.findById(userId);
         userCart.items = userCart.items.filter( item => item._id.toString() !== productId );
 
         await userCart.save();
