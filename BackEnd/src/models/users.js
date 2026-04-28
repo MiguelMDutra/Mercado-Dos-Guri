@@ -5,7 +5,7 @@ const usersSchema = new mongoose.Schema({
   nome: { type: String, required: [true, "o campo de nome é necessário"] },
   email: {
     type: String,
-    required: [true, "o campo de nome é necessário"],
+    required: [true, "o campo de email é necessário"],
     unique: [true, "esse email já foi cadastrado"],
   },
   pwd: { type: String, required: [true, "o campo de senha é necessário"] },
@@ -13,6 +13,7 @@ const usersSchema = new mongoose.Schema({
     type: String,
     enum: ["user", "admin"],
     default: "user",
+
   },
 });
 
