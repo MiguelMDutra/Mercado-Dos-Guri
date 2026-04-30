@@ -1,0 +1,276 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: My Collection2
+meta:
+  id: wrk_3df34e47e4204dddbe0c44ed879ea741
+  created: 1776966480685
+  modified: 1776966480685
+  description: ""
+collection:
+  - url: http://localhost:3000/products
+    name: get products
+    meta:
+      id: req_9949ae022d9f4ca4b2e60d90dbf6f333
+      created: 1777313719988
+      modified: 1777572200458
+      isPrivate: false
+      description: ""
+      sortKey: -1777313719988
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/products
+    name: post product
+    meta:
+      id: req_54d57ab96c4f4a6293d28971de1c5da6
+      created: 1777313872927
+      modified: 1777401578616
+      isPrivate: false
+      description: ""
+      sortKey: -1777313872927
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name":"bike",
+        	"price":"300",
+        "productImage":"https://images.tcdn.com.br/img/img_prod/394779/bicicleta_26_gts_m1_fat_bike_freio_hidraulico_8v_shimano_altus_suporta_ate_140_kg_i_vtec_big_fat_3979_variacao_12971_1_fa072259da80dcc15135f75281cbe06b_20250701160859.jpg",
+        	"description":"bici",
+        	"category":"esporte"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/register
+    name: create user
+    meta:
+      id: req_719ba31e88274ee89ef83a1e5fdf4596
+      created: 1777319112683
+      modified: 1777572107198
+      isPrivate: false
+      description: ""
+      sortKey: -1777319112683
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"nome":"etset",
+        	"email":"ststst@email.com",
+        	"pwd":"123456"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/users/69f0f6b5d5304aeda573284e
+    name: remove user
+    meta:
+      id: req_e26f9a570c2445c287bb466f309e5a7c
+      created: 1777398239885
+      modified: 1777399817223
+      isPrivate: false
+      description: ""
+      sortKey: -1777398239885
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/cart
+    name: get cart
+    meta:
+      id: req_cefa4eafc0da40b59f6bc7f124c20689
+      created: 1777398818578
+      modified: 1777572130299
+      isPrivate: false
+      description: ""
+      sortKey: -1777398818578
+    method: GET
+    body:
+      mimeType: application/json
+      text: '{"userId":"69f3990f05d9b5fc09d490e3"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/users
+    name: get users
+    meta:
+      id: req_c4369acf77bc473390ca51753c2cfc8c
+      created: 1777398846224
+      modified: 1777574275548
+      isPrivate: false
+      description: ""
+      sortKey: -1777358676284
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/cart/add
+    name: add to cart
+    meta:
+      id: req_5963ded1e34c4aca9faf07c19f799e8c
+      created: 1777399013938
+      modified: 1777572207045
+      isPrivate: false
+      description: ""
+      sortKey: -1777399013938
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"userId":"69f3990f05d9b5fc09d490e3",
+        	"productId":"69f1060f2f5603c218f47502",
+        	"qty":"1"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/cart
+    name: create cart
+    meta:
+      id: req_2cb934666fa34d70ac1053b5837e126c
+      created: 1777399740374
+      modified: 1777571168405
+      isPrivate: false
+      description: ""
+      sortKey: -1777398916258
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"userId":"69f38f0b19e4cc8aca205350"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/cart
+    name: clear cart
+    meta:
+      id: req_1013ccf255294a31b76ef895d2b83173
+      created: 1777572273596
+      modified: 1777572874324
+      isPrivate: false
+      description: ""
+      sortKey: -1777572273596
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: '{"userId":"69f3990f05d9b5fc09d490e3"}'
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.5.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_e01aea0b1824125d2fdb7f676ff9e6adbf5ddd93
+    created: 1776966480710
+    modified: 1776966480710
+environments:
+  name: Base Environment
+  meta:
+    id: env_e01aea0b1824125d2fdb7f676ff9e6adbf5ddd93
+    created: 1776966480704
+    modified: 1776966480704
+    isPrivate: false
