@@ -23,8 +23,12 @@ class UserController {
     static async registerUser(req, res, next) {
         try {
             const newUser = await user.create(req.body);
+            console.log("cheguei");
+            
             res.status(201).send(newUser);
         } catch (error) {
+            console.log(error);
+            
             next(error);
         }
     }

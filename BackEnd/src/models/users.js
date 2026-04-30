@@ -7,7 +7,7 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: [true, "o campo de email é necessário"],
     unique: [true, "esse email já foi cadastrado"],
-  },
+   },
   pwd: { type: String, required: [true, "o campo de senha é necessário"] },
   roles: {
     type: String,
@@ -16,6 +16,9 @@ const usersSchema = new mongoose.Schema({
 
   },
 });
+
+
+
 
 const user = mongoose.model("users", usersSchema, "users");
 
