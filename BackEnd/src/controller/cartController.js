@@ -1,5 +1,5 @@
-import product from "../models/productModel.js";
-import cart from "../models/cartModel.js"
+import { cart } from "../models/cartModel.js"
+import { cartItem } from "../models/cartModel.js"
 
 class CartController {
     static async createCart(req, res, next){
@@ -12,6 +12,7 @@ class CartController {
             next(error);
         }
     }
+    
     static async getCart(req, res, next){
         const userId = req.body.userId;
         try {
@@ -21,29 +22,28 @@ class CartController {
         catch (error) {
             next(error);
         }
+        
     }
 
     static async addToCart(req, res, next) {
         const userId = req.body.userId;
         const productId = req.body.productId;
+        const qty = parseInt(req.body.qty)
         const userCart = await cart.findOne({user: userId});
 
-        try {
-            const addProduct = await product.findById(productId);
-        } catch (error) {
-            next(error);
-        }
-
-        const existingItem = userCart.items.find(item => item.productId === productId);
+        const existingItem = userCart.items.find(item => item.product == productId);
 
         if (existingItem) {
             existingItem.quantity ++;
+            console.log("qtde do item aumentada")
         } else {
-            userCart.items.push({productId: productId, quantity:1});
+            const addItem = await cartItem.create({product : req.body.productId, quantity: qty})
+            userCart.items.push(addItem);
+            console.log("item adicionado ao carrinho")
         }
 
         await userCart.save();
-        return userCart;
+        res.status(201).send(userCart);
     }
 
 
@@ -60,3 +60,4 @@ class CartController {
 }
 
 export default CartController;
+
