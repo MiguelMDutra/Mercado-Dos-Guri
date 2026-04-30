@@ -14,6 +14,20 @@ class CartController {
     }
     
     static async getCart(req, res, next){
+        console.log("pq q ta dando timeout")
+        const userId = req.body.userId;
+        try {
+            const userCart = await cart.findOne({user: userId}).populate();
+            userCart.items.length = 0;
+            res.status(204).send(userCart);
+        } 
+        catch (error) {
+            next(error);
+        }
+        
+    }
+
+    static async clearCart(req, res, next){
         const userId = req.body.userId;
         try {
             const userCart = await cart.findOne({user: userId}).populate();
