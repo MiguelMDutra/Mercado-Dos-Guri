@@ -10,6 +10,30 @@ class ProductsController {
     }
   }
 
+static async filterProducts(req, res, next) {
+  try {
+    const { nome, categoria, preco_min, preco_max } = req.query;
+
+    const busca = {};
+
+    if (nome) busca.name = { $regex: nome, $options: "i" };
+    if (categoria) busca.category = { $regex: categoria, $options: "i" };
+
+    if (preco_min || preco_max) {
+      busca.price = {};
+
+      if (preco_min) busca.price.$gte = Number(preco_min);
+      if (preco_max) busca.price.$lte = Number(preco_max);
+    }
+
+    const foundProducts = await product.find(busca);
+    res.status(200).send(foundProducts);
+
+  } catch (error) {
+    next(error);
+  }
+}
+
   static async postProduct(req, res, next) {
     try {
       const createdProduct = await product.create(req.body);

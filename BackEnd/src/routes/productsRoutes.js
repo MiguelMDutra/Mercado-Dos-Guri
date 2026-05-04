@@ -7,6 +7,7 @@ import tokenValidator from "../middlewares/tokenValidator.js";
 const productsRouter = express.Router();
 
 productsRouter.get("/products" ,ProductsController.getProducts);
+productsRouter.get("/products/filter", ProductsController.filterProducts);
 productsRouter.post("/products", productNameValidation, productUrlValidation, ProductsController.postProduct);
 productsRouter.put("/products/:id", productNameValidation, productUrlValidation, ProductsController.updateProduct);
 productsRouter.delete("/products/:id", ProductsController.deleteProduct);
