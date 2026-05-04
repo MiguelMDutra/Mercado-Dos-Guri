@@ -8,6 +8,6 @@ cartRouter.post("/cart", CartController.createCart);
 cartRouter.delete("/cart", CartController.clearCart);
 
 cartRouter.post("/cart/add", CartController.addToCart);
-cartRouter.delete("/cart/remove/:id", CartController.removeFromCart);
+cartRouter.delete("/cart/remove", CartController.removeFromCart);
 
 export default cartRouter;
