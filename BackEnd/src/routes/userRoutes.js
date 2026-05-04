@@ -3,6 +3,7 @@ import express from "express";
 import UserNameValidation from "../validators/user/userName.js";
 import emailNameValidation from "../validators/user/userEmail.js";
 import UserPwdValidation from "../validators/user/userPwdValidation.js";
+import tokenValidator from "../middlewares/tokenValidator.js";
 
 const userRouter = express.Router();
 

@@ -1,5 +1,6 @@
 import user from "../models/users.js";
 import BadRequest from "../errors/badRequest.js";
+import jwt from 'jsonwebtoken';
 
 class UserController {
     static async getAllUsers(req, res, next) {
@@ -23,12 +24,10 @@ class UserController {
     static async registerUser(req, res, next) {
         try {
             const newUser = await user.create(req.body);
-            console.log("cheguei");
-            
-            res.status(201).send(newUser);
+            const infosToken = { id: newUser._id, nome: newUser.nome, email: newUser.email, roles: newUser.roles };
+            const token = jwt.sign(infosToken, process.env.SECRET_KEY, { expiresIn: "7d" });
+            res.status(201).send({ ...newUser._doc, token });
         } catch (error) {
-            console.log(error);
-            
             next(error);
         }
     }
