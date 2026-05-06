@@ -1,0 +1,120 @@
+#cabecalho {
+  height: 70px;
+  display: block;
+  padding-bottom: 180px;
+  position: fixed;
+  width: 100%;
+  background-color: lightgray;
+}
+#cabecalho1 {
+  height: 30px;
+  display: flex;
+}
+#cabecalhoo1 {
+  width: 50%;
+  display: flex;
+  text-align: left;
+}
+#cabecalhoo2 {
+  align-items: center;
+  width: 50%;
+  text-align: center;
+}
+#cabecalho2 {
+  height: 40px;
+}
+#imgCaraPulando {
+  width: 50px;
+}
+#pbike {
+  width: 20px;
+  font-size: 19px;
+  margin-top: 0;
+  font-weight: bold;
+}
+#pgLogin {
+  padding-top: 25px;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0%;
+}
+#entrar {
+  text-decoration: none;
+  color: #555;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 0%;
+}
+#entrar :hover {
+  color: #fff;
+}
+#brCabecalho {
+  height: 500px;
+  background-color: aqua;
+  color: aquamarine;
+}
+
+#logoInv {
+  width: 120px;
+  height: 80px;
+}
+
+#imgLogoInverte {
+  -moz-transform: scaleX(-1);
+  -webkit-transform: scaleX(
+    -1
+  );
+  -o-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+nav {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.menu li a:hover {
+  color: #555;
+}
+
+/*FORMATAÇÃO PARA O BODY*/
+
+body {
+  width: 100%;
+}
+.imgText {
+  width: 360px;
+}
+.ppreco {
+  font-weight: bold;
+}
+.pTags {
+  font-style: italic;
+}
+#vitrine {
+  padding-top: 200px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.item {
+  margin: 10px;
+  border: 2px solid #555;
+  border-radius: 10px;
+}
