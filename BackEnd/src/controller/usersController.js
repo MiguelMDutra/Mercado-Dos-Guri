@@ -28,6 +28,28 @@ class UserController {
             next(error);
         }
     }
+    static async login(req, res, next) {
+        try {
+            const { email, pwd } = req.body;
+            if (!email || !pwd) {
+                return next(new BadRequest("Email e senha são obrigatórios"));
+            }
+
+            const foundUser = await user.findOne({ email });
+            if (!foundUser || foundUser.pwd !== pwd) {
+                return next(new BadRequest("Email ou senha inválidos"));
+            }
+
+            res.status(200).send({
+                id: foundUser._id,
+                nome: foundUser.nome,
+                email: foundUser.email,
+                roles: foundUser.roles,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
     static async deleteUser(req, res, next) {
         try {
             const { id } = req.params;

@@ -1,8 +1,73 @@
 // App.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaShoppingCart } from 'react-icons/fa';
 import './style.css';
+import axios from 'axios';
+import CartSidebar from './Components/cart/cartSidebar';
+
+async function fetchProducts() {
+  const response = await axios.get('/products', { timeout: 5000 });
+  return response.data;
+}
 
 function App() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [userName, setUserName] = useState(null);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleAddToCart = (product) => {
+    const existingCart = localStorage.getItem('cart');
+    let cartItems = existingCart ? JSON.parse(existingCart) : [];
+
+    const existingItem = cartItems.find(item => item._id === product._id);
+
+    if (existingItem) {
+      existingItem.quantity = (existingItem.quantity || 1) + 1;
+    } else {
+      cartItems.push({ ...product, quantity: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    // console.log('localStorage cart atualizado:', cartItems);
+    // console.log('localStorage conteúdo completo:', localStorage);
+    alert('Produto adicionado ao carrinho!');
+  };
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const productList = await fetchProducts();
+        setProducts(Array.isArray(productList) ? productList : []);
+      } catch (fetchError) {
+        console.error('Erro ao carregar produtos:', fetchError);
+        setError('Não foi possível carregar os produtos.');
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProducts();
+  }, []);
+
+  useEffect(() => {
+    const storedUserName = localStorage.getItem('userName');
+    setUserName(storedUserName);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('userId');
+    // console.log('localStorage userId removido');
+    localStorage.removeItem('userName');
+    // console.log('localStorage userName removido');
+    // console.log('localStorage após logout:', localStorage);
+    setUserName(null);
+    navigate('/');
+  };
+
   return (
     <>
       <header id="cabecalho">
@@ -17,9 +82,47 @@ function App() {
             <p id="pbike">BIKE</p>
           </div>
           <div id="cabecalhoo2">
-            <p id="pgLogin">
-              <a id="linkLogin" href="login.html">Entrar</a>
-            </p>
+            <div id="headerActions">
+              <button
+                id="cartBtn"
+                onClick={() => setIsCartOpen(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                  color: '#708090',
+                  marginRight: '15px',
+                }}
+              >
+                <FaShoppingCart />
+              </button>
+              <p id="pgLogin">
+                {userName ? (
+                  <>
+                    <span id="userName" style={{ marginRight: '10px', fontWeight: 'bold' }}>
+                      Olá, {userName}
+                    </span>
+                    <button
+                      id="logoutBtn"
+                      onClick={handleLogout}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#708090',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      Sair
+                    </button>
+                  </>
+                ) : (
+                  <Link id="linkLogin" to="/login">Entrar</Link>
+                )}
+              </p>
+            </div>
           </div>
         </div>
         <br id="brCabecalho" />
@@ -45,69 +148,36 @@ function App() {
       </header>
 
       <section id="vitrine">
-        <div className="item">
-          <img src="https://imgnike-a.akamaihd.net/360x360/09768053.jpg" alt="Tênis Metcon 7" />
-          <div className="imgText">
-            <p className="pnome">Tênis Bike Free Metcon 7 Masculino</p>
-            <p className="pTags">Treino & Academia</p>
-            <p className="ppreco">R$ 949,99</p>
+        {loading && <p>Carregando produtos...</p>}
+        {error && <p>{error}</p>}
+        {!loading && !error && products.length === 0 && (
+          <p>Nenhum produto disponível no momento.</p>
+        )}
+        {!loading && !error && products.map((product) => (
+          <div key={product._id || product.id || product.name} className="item">
+            <img
+              src={product.productImage || 'https://via.placeholder.com/360'}
+              alt={product.name || 'Produto'}
+              className='itemImg'
+            />
+            <div className="imgText">
+              <p className="pnome">{product.name}</p>
+              <p className="pTags">{product.category || product.description}</p>
+              <p className="ppreco">
+                R$ {Number(product.price || 0).toFixed(2).replace('.', ',')}
+              </p>
+              <button
+                className="addToCartBtn"
+                onClick={() => handleAddToCart(product)}
+              >
+                Adicionar ao Carrinho
+              </button>
+            </div>
           </div>
-        </div>
-
-        <div className="item">
-          <img src="https://imgnike-a.akamaihd.net/360x360/097736ID.jpg" alt="Tênis Pegasus 42" />
-          <div className="imgText">
-            <p className="pnome">Tênis Bike Air Zoom Pegasus 42 Masculino</p>
-            <p className="pTags">Corrida</p>
-            <p className="ppreco">R$ 949,99</p>
-          </div>
-        </div>
-        <div className="item">
-  <img src="https://imgnike-a.akamaihd.net/360x360/097736IE.jpg" alt="Tênis Pegasus 42" />
-  <div className="imgText">
-    <p className="pnome">Tênis Bike Air Zoom Pegasus 42 Masculino</p>
-    <p className="pTags">Corrida</p>
-    <p className="ppreco">R$ 949,99</p>
-  </div>
-</div>
-
-<div className="item">
-  <img src="https://imgnike-a.akamaihd.net/360x360/09773651.jpg" alt="Tênis Pegasus 42" />
-  <div className="imgText">
-    <p className="pnome">Tênis Bike Air Zoom Pegasus 42 Masculino</p>
-    <p className="pTags">Corrida</p>
-    <p className="ppreco">R$ 949,99</p>
-  </div>
-</div>
-
-<div className="item">
-  <img src="https://imgnike-a.akamaihd.net/360x360/09764551.jpg" alt="Tênis Pegasus 42" />
-  <div className="imgText">
-    <p className="pnome">Tênis Bike Air Zoom Pegasus 42 Masculino</p>
-    <p className="pTags">Corrida</p>
-    <p className="ppreco">R$ 949,99</p>
-  </div>
-</div>
-
-<div className="item">
-  <img src="https://imgnike-a.akamaihd.net/360x360/058889IE.jpg" alt="Tênis Revolution 8" />
-  <div className="imgText">
-    <p className="pnome">Tênis Bike Revolution 8 Masculino</p>
-    <p className="pTags">Corrida</p>
-    <p className="ppreco">R$ 341,99</p>
-  </div>
-</div>
-
-<div className="item">
-  <img src="https://imgnike-a.akamaihd.net/360x360/01113751.jpg" alt="Tênis Air Force 1" />
-  <div className="imgText">
-    <p className="pnome">Tênis Bike Air Force 1 "07 Masculino</p>
-    <p className="pTags">Casual</p>
-    <p className="ppreco">R$ 759,99</p>
-  </div>
-</div>
-
+        ))}
       </section>
+
+      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   );
 }

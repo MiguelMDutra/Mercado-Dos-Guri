@@ -17,6 +17,13 @@
   width: 50%;
   text-align: right;
 }
+
+#headerActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+}
 #cabecalho2 {
   height: 40px;
   padding-left: 10px;
@@ -87,13 +94,22 @@ body {
   width: 100%;
 }
 .imgText {
-  width: 360px;
+  width: 250px;
+  margin: 10px;
+  text-overflow: ellipsis;
+  line-height: 1.5em;
 }
 .ppreco {
   font-weight: bold;
 }
 .pTags {
   font-style: italic;
+  text-transform: capitalize;
+}
+.pnome {
+  font-weight: bold;
+  font-size: large;
+  text-transform: capitalize;
 }
 #vitrine {
   width: 100%;
@@ -102,7 +118,38 @@ body {
   justify-content: space-evenly;
 }
 .item {
+  width: 270px;
   margin: 10px;
-  border: 2px solid #555;
   border-radius: 10px;
+  box-shadow: 2px 2px 10px lightgrey;
+}
+
+.itemImg{
+  margin: 10px;
+  margin-bottom: 0px;
+  width: 250px;         /* Set desired width */
+  height: 250px;        /* Set desired height */
+  object-fit: cover;    /* Centers and crops the image to fill dimensions */
+  object-position: center;
+  border: 0px none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.addToCartBtn {
+  width: 90%;
+  margin: 10px 5% 5px 5%;
+  padding: 10px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.addToCartBtn:hover {
+  background-color: #0052a3;
 }

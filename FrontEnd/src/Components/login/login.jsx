@@ -1,14 +1,40 @@
 import { FaUser, FaLock } from 'react-icons/fa';
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./login.css";
-import { Link } from "react-router-dom";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrorMessage("");
+
+    try {
+      const response = await axios.post("/login", {
+        email,
+        pwd: password,
+      });
+      localStorage.setItem("userId", response.data.id);
+      // console.log('localStorage userId:', response.data.id);
+      localStorage.setItem("userName", response.data.nome);
+      // console.log('localStorage userName:', response.data.nome);
+      // console.log('localStorage após login:', localStorage);
+      navigate("/");
+    } catch (error) {
+      const backendMessage =
+        typeof error?.response?.data === "string"
+          ? error.response.data
+          : error?.response?.data?.message;
+
+      setErrorMessage(
+        backendMessage || "Erro ao fazer login. Tente novamente."
+      );
+    }
   };
 
   return (
@@ -22,7 +48,8 @@ const Login = () => {
           <input
             type="email"
             placeholder="E-mail"
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <FaUser className="icon" />
         </div>
@@ -30,11 +57,14 @@ const Login = () => {
         <div className="input-field">
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Senha"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <FaLock className="icon" />
         </div>
+
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
          <button type="submit">Entrar</button>
 

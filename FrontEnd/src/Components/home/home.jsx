@@ -1,8 +1,26 @@
-import { Link } from "react-router-dom";
-import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 
 function App() {
+  const [userName, setUserName] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUserName = localStorage.getItem('userName');
+    setUserName(storedUserName);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('userId');
+    // console.log('localStorage userId removido');
+    localStorage.removeItem('userName');
+    // console.log('localStorage userName removido');
+    // console.log('localStorage após logout:', localStorage);
+    setUserName(null);
+    navigate('/');
+  };
+
   return (
     <>
       <header id="cabecalho">
@@ -11,7 +29,7 @@ function App() {
             <img
               id="imgCaraPulando"
               src="/public/jordanInv.png"
-              id="imgLogoInverte"
+              className="imgLogoInverte"
               alt="Logo Jordan"
             />
             <p id="pbike">
@@ -20,12 +38,34 @@ function App() {
           </div>
           <div id="cabecalhoo2">
             <p id="pgLogin">
-              <Link
-                id="entrar"
-                to="/login"
-              >
-                Entrar
-              </Link>
+              {userName ? (
+                <>
+                  <span id="userName" style={{ marginRight: '10px', fontWeight: 'bold' }}>
+                    Olá, {userName}
+                  </span>
+                  <button
+                    id="logoutBtn"
+                    onClick={handleLogout}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#000',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                    }}
+                  >
+                    Sair
+                  </button>
+                </>
+              ) : (
+                <Link
+                  id="entrar"
+                  to="/login"
+                >
+                  Entrar
+                </Link>
+              )}
             </p>
           </div>
         </div>

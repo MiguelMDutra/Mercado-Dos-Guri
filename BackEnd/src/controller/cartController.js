@@ -14,48 +14,60 @@ class CartController {
     }
     
     static async getCart(req, res, next){
-        const userId = req.body.userId;
+        const userId = req.params.userId;
         try {
             const userCart = await cart.findOne({user: userId}).populate();
-            res.status(200).send(userCart);
+            res.status(200).send(userCart || { items: [] });
         } 
         catch (error) {
             next(error);
         }
-        
     }
 
     static async addToCart(req, res, next) {
         const userId = req.body.userId;
         const productId = req.body.productId;
-        const qty = parseInt(req.body.qty)
-        const userCart = await cart.findOne({user: userId});
+        const qty = parseInt(req.body.qty || '1', 10);
 
-        const existingItem = userCart.items.find(item => item.product == productId);
+        if (!userId || !productId) {
+            return next(new Error('userId e productId são obrigatórios'));
+        }
+
+        let userCart = await cart.findOne({user: userId});
+        if (!userCart) {
+            userCart = await cart.create({ user: userId, items: [] });
+        }
+
+        const existingItem = userCart.items.find(item => item.product.toString() === productId);
 
         if (existingItem) {
-            existingItem.quantity ++;
-            console.log("qtde do item aumentada")
+            existingItem.quantity += qty;
         } else {
-            const addItem = await cartItem.create({product : req.body.productId, quantity: qty})
+            const addItem = await cartItem.create({ product: productId, quantity: qty });
             userCart.items.push(addItem);
-            console.log("item adicionado ao carrinho")
         }
 
         await userCart.save();
         res.status(201).send(userCart);
     }
 
-
-
     static async removeFromCart(req, res, next) {
         const userId = req.body.userId;
         const productId = req.body.productId;
-        const userCart = await cart.findById(userId);
-        userCart.items = userCart.items.filter( item => item._id.toString() !== productId );
+
+        if (!userId || !productId) {
+            return next(new Error('userId e productId são obrigatórios'));
+        }
+
+        const userCart = await cart.findOne({ user: userId });
+        if (!userCart) {
+            return next(new Error('Carrinho não encontrado'));
+        }
+
+        userCart.items = userCart.items.filter(item => item._id.toString() !== productId);
 
         await userCart.save();
-        return userCart;
+        res.status(200).send(userCart);
     }
 }
 
